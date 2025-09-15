@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "android": "npm run tauri android dev",
+    "android-init" : "npm run tauri android init",
+    "android-dev": "npm run tauri android dev",
     "andorid-build" : "npm run tauri android build"
   },
   "dependencies": {
