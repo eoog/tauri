@@ -1,0 +1,30 @@
+[package]
+name = "tauri-app"
+version = "0.1.0"
+description = "A Tauri App"
+authors = ["you"]
+edition = "2021"
+
+# Android 빌드를 위한 라이브러리 설정
+[lib]
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[dependencies]
+# 기본 의존성 (모든 플랫폼)
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# 모든 플랫폼에서 기본 tauri
+tauri = { version = "2.4", features = ["custom-protocol"] }
+tauri-plugin-opener = "2.4"
+
+# 데스크톱에서만 tray-icon 기능 추가
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri = { version = "2.4", features = ["custom-protocol", "tray-icon"] }
+
+[build-dependencies]
+tauri-build = { version = "2.4", features = [] }
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
