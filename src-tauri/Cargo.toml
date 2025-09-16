@@ -13,6 +13,7 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 # 기본 의존성 (모든 플랫폼)
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+lazy_static = "1.4"
 
 # 모든 플랫폼에서 기본 tauri
 tauri = { version = "2.4", features = ["custom-protocol"] }

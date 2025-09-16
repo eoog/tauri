@@ -7,8 +7,8 @@
     "windows": [
       {
         "title": "tauri-app",
-        "width": 800,
-        "height": 600,
+        "width": 400,
+        "height": 1200,
         "resizable": true,
         "fullscreen": false
       }

@@ -8,15 +8,18 @@
     "build": "vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "t-start" : "npm run tauri dev",
-    "t-build" : "npm run tauri build",
-    "android-init" : "npm run tauri android init",
+    "t-start": "npm run tauri dev",
+    "t-build": "npm run tauri build",
+    "t-window": "npm run tauri build --bundles msi,nsis",
+    "android-init": "npm run tauri android init",
     "android-dev": "npm run tauri android dev",
-    "andorid-build" : "npm run tauri android build"
+    "andorid-build": "npm run tauri android build"
   },
   "dependencies": {
+    "@stomp/stompjs": "^7.1.1",
     "@tauri-apps/api": "^2.4.0",
     "@tauri-apps/plugin-opener": "^2.4.0",
+    "jquery": "^3.7.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
