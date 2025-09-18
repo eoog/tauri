@@ -1,143 +1,252 @@
 /* src/App.css */
 
-.app-container {
-  display: flex;
-  flex-direction: column;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+#root {
   height: 100vh;
-}
-
-.container {
-  flex: 1;
-  padding: 20px;
-  padding-bottom: 90px; /* 하단 탭 공간 확보 */
-  overflow-y: auto;
-}
-
-.content {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.settings-content {
-  text-align: center;
-  padding: 40px 20px;
-}
-
-.settings-content h2 {
-  color: #333;
-  margin-bottom: 16px;
-}
-
-.settings-content p {
-  color: #666;
-  font-size: 16px;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 2rem;
-  color: #333;
-}
-
-/* 기존 스타일들 */
-.form-container {
-  background: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-.payment-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
-.payment-form input {
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.payment-form button {
-  padding: 12px 24px;
-  background: #007cba;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.payment-form button:hover {
-  background: #005a87;
-}
-
-.payment-list {
-  background: #fff;
-  border-radius: 8px;
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   overflow: hidden;
 }
 
-.payment-item {
+/* Header Styles */
+.app-header {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 20px 0 16px 0;
+  z-index: 10;
+}
+
+.header-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+}
+
+.header-content {
+  position: relative;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 16px;
-  border-bottom: 1px solid #eee;
+  justify-content: center;
+  gap: 12px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
-.payment-item:last-child {
-  border-bottom: none;
-}
-
-.payment-info h3 {
-  margin: 0 0 4px 0;
-  color: #333;
-}
-
-.payment-info p {
-  margin: 0;
-  color: #666;
-  font-size: 14px;
-}
-
-.payment-amount {
-  font-weight: bold;
-  color: #007cba;
-  font-size: 18px;
-}
-
-.delete-btn {
-  background: #dc3545;
+.header-icon {
   color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  margin-left: 16px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 8px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.delete-btn:hover {
-  background: #c82333;
+.header-title {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  letter-spacing: -0.02em;
 }
 
-/* 반응형 디자인 */
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 20px 24px 100px 24px;
+}
+
+.content-container {
+  flex: 1;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.content-wrapper {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Loading Styles */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  gap: 16px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(102, 126, 234, 0.1);
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-container p {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Animation */
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar Styling */
+.content-wrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.content-wrapper::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+}
+
+.content-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(102, 126, 234, 0.3);
+  border-radius: 3px;
+}
+
+.content-wrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(102, 126, 234, 0.5);
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  .container {
+  .main-content {
+    padding: 16px 16px 100px 16px;
+  }
+
+  .content-wrapper {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .header-content {
+    padding: 0 16px;
+  }
+
+  .header-title {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 12px 12px 100px 12px;
+  }
+
+  .content-wrapper {
     padding: 16px;
-    padding-bottom: 90px;
+    border-radius: 12px;
   }
 
-  .payment-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+  .header-title {
+    font-size: 1.1rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .content-wrapper {
+    background: rgba(31, 41, 55, 0.95);
+    color: #f3f4f6;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
-  .payment-amount {
-    align-self: flex-end;
+  .loading-container p {
+    color: #9ca3af;
   }
+}
+
+/* Improved focus states for accessibility */
+.content-wrapper:focus-within {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15), 0 0 0 2px rgba(102, 126, 234, 0.3);
+}
+
+/* Glass effect enhancement */
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  z-index: -1;
+}
+
+/* Subtle gradient overlay */
+.main-content::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(ellipse at top, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
 }
