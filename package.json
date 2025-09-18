@@ -10,7 +10,7 @@
     "tauri": "tauri",
     "t-start": "npm run tauri dev",
     "t-build": "npm run tauri build",
-    "t-window": "npm run tauri build --bundles msi,nsis",
+    "t-window": "npm run tauri build --bundles",
     "android-init": "npm run tauri android init",
     "android-dev": "npm run tauri android dev",
     "andorid-build": "npm run tauri android build"
@@ -20,6 +20,7 @@
     "@tauri-apps/api": "^2.4.0",
     "@tauri-apps/plugin-opener": "^2.4.0",
     "jquery": "^3.7.1",
+    "lucide-react": "^0.544.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.9.1"

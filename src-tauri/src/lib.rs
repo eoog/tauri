@@ -136,6 +136,11 @@ pub fn run() {
             .on_window_event(|_window, event| {
                 if let tauri::WindowEvent::CloseRequested { api, .. } = event {
                     api.prevent_close();
+                    #[cfg(desktop)]
+                    {
+                        #[allow(unused_variables)] // 여기로 이동
+                        let _ = _window.hide();
+                    }
                 }
             })
     } else if cfg!(mobile) {
