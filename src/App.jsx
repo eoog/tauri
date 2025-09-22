@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
+import Database from "@tauri-apps/plugin-sql";
 import PaymentForm from "./components/PaymentForm";
 import PaymentList from "./components/PaymentList";
 import BottomTabs from "./components/BottomTabs";
@@ -12,11 +13,47 @@ function App() {
   const [payments, setPayments] = useState([]);
   const [activeTab, setActiveTab] = useState('payments');
   const [isLoading, setIsLoading] = useState(true);
+  const [db, setDb] = useState(null);
+
+  // 데이터베이스 초기화
+  useEffect(() => {
+    const initDatabase = async () => {
+      try {
+        const database = await Database.load("sqlite:payments.db");
+        setDb(database);
+        console.log("Database connected successfully");
+      } catch (error) {
+        console.error("Failed to connect to database:", error);
+      }
+    };
+
+    initDatabase();
+  }, []);
+
+
+  const showDbPath = async () => {
+    try {
+      const path = await invoke("get_db_path");
+      alert(path); // 팝업으로 경로 표시
+      console.log(path);
+    } catch (error) {
+      console.error("Failed to get path:", error);
+    }
+  };
+
+// 컴포넌트에서 호출
+  useEffect(() => {
+    showDbPath();
+  }, []);
 
   const fetchPayments = async () => {
+    if (!db) return;
+
     try {
       setIsLoading(true);
-      const fetchedPayments = await invoke("get_payments");
+      const fetchedPayments = await db.select(
+          "SELECT id, amount, description, date, created_at FROM payments ORDER BY created_at DESC"
+      );
       setPayments(fetchedPayments);
     } catch (error) {
       console.error("Failed to fetch payments:", error);
@@ -25,25 +62,65 @@ function App() {
     }
   };
 
+  // 데이터베이스가 연결되면 결제 목록 가져오기
   useEffect(() => {
-    fetchPayments();
-  }, []);
+    if (db) {
+      fetchPayments();
+    }
+  }, [db]);
 
   const handleAddPayment = async (amount, description, date) => {
+    if (!db) {
+      alert("Database not connected");
+      return;
+    }
+
     try {
+      // 먼저 백엔드에서 검증
       await invoke("add_payment", { amount, description, date });
+
+      // 검증 통과하면 데이터베이스에 삽입
+      const result = await db.execute(
+          "INSERT INTO payments (amount, description, date) VALUES ($1, $2, $3)",
+          [amount, description, date]
+      );
+
+      console.log("Payment added with ID:", result.lastInsertId);
+
+      // 목록 새로고침
       fetchPayments();
     } catch (error) {
       console.error("Failed to add payment:", error);
+      alert("Failed to add payment: " + error);
     }
   };
 
   const handleDeletePayment = async (id) => {
+    if (!db) {
+      alert("Database not connected");
+      return;
+    }
+
     try {
-      await invoke("delete_payment", { id });
-      fetchPayments();
+      // 먼저 백엔드에서 검증
+      await invoke("delete_payment", { id: parseInt(id) });
+
+      // 검증 통과하면 데이터베이스에서 삭제
+      const result = await db.execute(
+          "DELETE FROM payments WHERE id = $1",
+          [parseInt(id)]
+      );
+
+      if (result.rowsAffected > 0) {
+        // 로컬 상태에서도 제거
+        setPayments(payments.filter(payment => payment.id !== parseInt(id)));
+        console.log("Payment deleted successfully");
+      } else {
+        alert("Payment not found");
+      }
     } catch (error) {
       console.error("Failed to delete payment:", error);
+      alert("Failed to delete payment: " + error);
     }
   };
 

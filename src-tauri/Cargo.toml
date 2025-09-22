@@ -14,10 +14,12 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 lazy_static = "1.4"
+tokio = { version = "1", features = ["full"] }
 
 # 모든 플랫폼에서 기본 tauri
 tauri = { version = "2.4", features = ["custom-protocol"] }
 tauri-plugin-opener = "2.4"
+tauri-plugin-sql = { version = "2.3.0", features = ["sqlite"] }  # 안정 버전
 
 # 데스크톱에서만 tray-icon 기능 추가
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
