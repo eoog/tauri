@@ -10,9 +10,8 @@
   border-top: 1px solid #e0e0e0;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-
-  /* Safe Area 적용 - 더 확실한 fallback 값 제공 */
-  /*padding-bottom: max(24px, env(safe-area-inset-bottom));*/
+  /* Safe Area 기본값 */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .tab-button {
@@ -53,19 +52,33 @@
   font-weight: 600;
 }
 
-/* 모바일 대응 - Android 특별 처리 */
-@media (max-width: 768px) {
+/* 📱 모바일 전용 - 정확한 미디어 쿼리 */
+@media screen and (max-width: 768px) {
   .bottom-tabs {
-    padding-bottom: max(32px, env(safe-area-inset-bottom));
+    /* 패딩만 조정, min-height 제거 */
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
   }
 
   .tab-button {
-    padding: 10px 4px;
-    min-height: 65px;
+    padding: 14px 8px;
+    /* 버튼 높이는 여기서 조정 */
+    min-height: 75px;
+  }
+}
+
+/* 📱 작은 모바일 기기 */
+@media screen and (max-width: 480px) {
+  .bottom-tabs {
+    padding-bottom: max(24px, env(safe-area-inset-bottom));
+  }
+
+  .tab-button {
+    padding: 12px 6px;
+    min-height: 70px;
   }
 
   .tab-icon {
-    font-size: 20px;
+    font-size: 22px;
   }
 
   .tab-label {
@@ -73,19 +86,11 @@
   }
 }
 
-/* Android 전용 - 폰과 태블릿 모두 포함 */
-@media screen and (max-device-width: 1024px) and (orientation: portrait),
-screen and (max-device-width: 1366px) and (orientation: landscape) {
-  .bottom-tabs {
-    padding-bottom: 50px !important; /* 36px → 50px */
-    min-height: 108px; /* 94px → 108px */
-  }
-}
-
-/* 태블릿 전용 추가 처리 */
-@media screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-  .bottom-tabs {
-    padding-bottom: 60px !important; /* 40px → 60px */
-    min-height: 118px; /* 98px → 118px */
+/* 🍎 iOS Safari 특별 처리 */
+@supports (-webkit-touch-callout: none) {
+  @media screen and (max-width: 768px) {
+    .bottom-tabs {
+      padding-bottom: max(34px, env(safe-area-inset-bottom));
+    }
   }
 }

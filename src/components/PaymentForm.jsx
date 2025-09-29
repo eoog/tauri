@@ -1,26 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function PaymentForm({ onAddPayment }) {
   const [amount, setAmount] = useState(0);
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]); // 오늘 날짜 기본값
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const styles = {
+  // 화면 크기 감지
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 480);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const getStyles = () => ({
     container: {
+      width: '100%',
       maxWidth: '500px',
       margin: '0 auto',
-      padding: '20px'
+      padding: isMobile ? '12px' : '16px'
     },
     form: {
       backgroundColor: 'white',
       borderRadius: '16px',
       boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)',
-      padding: '32px',
-      border: '1px solid #e5e7eb'
+      padding: isMobile ? '20px' : '24px',
+      border: '1px solid #e5e7eb',
+      width: '100%',
+      boxSizing: 'border-box'
     },
     title: {
-      fontSize: '24px',
+      fontSize: isMobile ? '20px' : '22px',
       fontWeight: '700',
       color: '#1f2937',
       marginBottom: '24px',
@@ -28,10 +43,11 @@ function PaymentForm({ onAddPayment }) {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: '10px'
+      gap: '8px'
     },
     inputGroup: {
-      marginBottom: '20px'
+      marginBottom: '20px',
+      width: '100%'
     },
     label: {
       display: 'block',
@@ -72,7 +88,8 @@ function PaymentForm({ onAddPayment }) {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      gap: '8px'
+      gap: '8px',
+      boxSizing: 'border-box'
     },
     submitButtonHover: {
       backgroundColor: '#2563eb',
@@ -87,14 +104,17 @@ function PaymentForm({ onAddPayment }) {
     },
     formRow: {
       display: 'flex',
-      gap: '16px',
-      marginBottom: '20px'
+      gap: isMobile ? '0px' : '12px',
+      marginBottom: '20px',
+      flexDirection: isMobile ? 'column' : 'row'
     },
     formColumn: {
-      flex: 1
+      flex: 1,
+      minWidth: isMobile ? 'auto' : '140px'
     }
-  };
+  });
 
+  const styles = getStyles();
   const [focusedInput, setFocusedInput] = useState(null);
   const [hoveredButton, setHoveredButton] = useState(false);
 
@@ -103,7 +123,9 @@ function PaymentForm({ onAddPayment }) {
     if (amount > 0 && description.trim()) {
       setIsSubmitting(true);
       try {
-        await onAddPayment(amount, description, date);
+        if (onAddPayment) {
+          await onAddPayment(amount, description, date);
+        }
         setAmount(0);
         setDescription("");
         setDate(new Date().toISOString().split("T")[0]);
@@ -128,7 +150,7 @@ function PaymentForm({ onAddPayment }) {
 
   return (
       <div style={styles.container}>
-        <form style={styles.form} onSubmit={handleSubmit}>
+        <div style={styles.form}>
           <h2 style={styles.title}>
             💰 새 결제 추가
           </h2>
@@ -186,6 +208,7 @@ function PaymentForm({ onAddPayment }) {
               type="submit"
               disabled={isSubmitting}
               style={getButtonStyle()}
+              onClick={handleSubmit}
               onMouseEnter={() => setHoveredButton(true)}
               onMouseLeave={() => setHoveredButton(false)}
           >
@@ -217,7 +240,7 @@ function PaymentForm({ onAddPayment }) {
             }
           `}
           </style>
-        </form>
+        </div>
       </div>
   );
 }
