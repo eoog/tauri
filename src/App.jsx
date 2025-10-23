@@ -8,6 +8,7 @@ import PaymentList from "./components/PaymentList";
 import BottomTabs from "./components/BottomTabs";
 import Settings from "./components/Settings";
 import "./App.css";
+import Titlebar                from "./components/Titlebar.jsx";
 
 function App() {
   const [payments, setPayments] = useState([]);

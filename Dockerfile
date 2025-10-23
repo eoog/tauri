@@ -29,7 +29,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
 
 # Rust 설치
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-ENV PATH="/root/.cargo/bin:$PATH"
+ENV PATH="/root/.cargo/bin:$PATH"ll
 
 # Tauri CLI 설치
 RUN cargo install tauri-cli
